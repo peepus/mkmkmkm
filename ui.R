@@ -12,41 +12,40 @@ library(grid)
 library(readxl)
 
 
-a <- readRDS("data/a.RDS")
 
-b <- readRDS("data/Strefy1.RDS")
-
-zawodnicy <- unique(a$zawodnik)
-zawodnicy <- sort(zawodnicy)
-
-shinyUI(fluidPage(theme = "united.css",
-  titlePanel("Mapy Rzutów PLK 2016/17"),
+shinyUI(fluidPage(
+  
+  tags$head(includeScript("data/google-analytics.js")),
+  
+  theme = "united.css",
+  titlePanel("Mapy Rzutów PLK"),
+  
   
   sidebarLayout(
     sidebarPanel(
+      selectInput("sezon", "Sezon",
+                  choices = c("2012-13", "2013-14", "2014-15",
+                "2015-16", "2016-17", "Wszystkie"), selected = "2016-17"),
       selectInput("chart", "Typ",
                   choices = c("HeatMapa", "Standardowy"),
                   selected = "Standardowy"),
-    selectInput("zawodnik", "Zawodnik",
-                choices = zawodnicy, selected = zawodnicy[1]),
+    selectInput("zawodnik", "Zawodnik", ""),
     tableOutput("table"),
-    tableOutput("eff"),
     
     h4("pulsbasketu.pl "),
     h5("Autor: Bartosz Ziarkowski"),
     h5("twitter: @bziarkowski"),
     h5("mail: bziarkowski1@gmail.com"),
-    h6("Wszyskie dane pochodzą z live.fibaeurope.com")),
+    h6("Wszytskie dane pochodzą z live.fibaeurope.com")),
+
   
     mainPanel(
-      plotOutput("plot", height = 600, width = 800)
-    
-      
+      plotOutput("plot", height = 620, width = 860)
+   
     )
   )
 )
 )
-
 
 
 
